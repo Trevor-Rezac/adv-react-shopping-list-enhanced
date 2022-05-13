@@ -4,7 +4,7 @@ import { useShoppingList } from '../../context/ShoppingListProvider';
 
 export default function ShoppingList() {
   const [listItem, setListItem] = useState('');
-  const { shoppingList, handleAddItem, handleUpdateItem } = useShoppingList();
+  const { shoppingList, handleAddItem, handleUpdateItem, handleDeleteItem } = useShoppingList();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +29,8 @@ export default function ShoppingList() {
           <li key={`${item.id}`}>
             <Item 
             item={item}
-            handleUpdateItem={handleUpdateItem}/>
+            handleUpdateItem={handleUpdateItem}
+            handleDeleteItem={handleDeleteItem}/>
           </li>)}
       </ul>
     </>

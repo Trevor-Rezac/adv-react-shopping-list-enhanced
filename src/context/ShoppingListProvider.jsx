@@ -9,6 +9,7 @@ const listReducer = (state, action) => {
         { id: Date.now(), text: action.payload.text, completed: false }, 
         ...state,
       ];
+
     case 'update_item':
       return state.map((item) => {
         if (item.id === action.payload.item.id) {
@@ -20,9 +21,14 @@ const listReducer = (state, action) => {
             text,
           };
         }
-
-        return item;
+      return item;
       });
+
+    case 'delete_item':
+      return state.filter((item) => item.id !== action.payload.id)
+
+    default:
+      throw new Error(`Action type ${action.type} has not been defined in ShoppingListProvider`)
   }
 }
 
@@ -39,9 +45,15 @@ export const ShoppingListProvider = ({ children }) => {
     dispatch({ type: 'update_item', payload: { item }})
   }
 
+  const handleDeleteItem = (id) => {
+    dispatch({ type: 'delete_item', payload: { id }})
+  }
+
+
+
   return (
     <ShoppingListContext.Provider
-    value={{ shoppingList, handleAddItem, handleUpdateItem }}>
+    value={{ shoppingList, handleAddItem, handleUpdateItem, handleDeleteItem }}>
       {children}
     </ShoppingListContext.Provider>
   )

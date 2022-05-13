@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function Item({ item, handleUpdateItem }) {
+export default function Item({ item, handleUpdateItem, handleDeleteItem }) {
   const [isEditing, setIsEditing] = useState(false);
 
   let itemView;
@@ -45,7 +45,7 @@ export default function Item({ item, handleUpdateItem }) {
   return (
     <div>
       {itemView}
-      <button>Delete</button>
+      <button onClick={(e) => handleDeleteItem(item.id)}>Delete</button>
     </div>
   )
 }

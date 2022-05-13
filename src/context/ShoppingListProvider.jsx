@@ -9,6 +9,20 @@ const listReducer = (state, action) => {
         { id: Date.now(), text: action.payload.text, completed: false }, 
         ...state,
       ];
+    case 'update_item':
+      return state.map((item) => {
+        if (item.id === action.payload.item.id) {
+          const { completed, text } = action.payload.item;
+
+          return {
+            ...item,
+            completed,
+            text,
+          };
+        }
+
+        return item;
+      });
   }
 }
 
@@ -21,9 +35,13 @@ export const ShoppingListProvider = ({ children }) => {
     dispatch({ type: 'add_item', payload: { text } });
   }
 
+  const handleUpdateItem = (item) => {
+    dispatch({ type: 'update_item', payload: { item }})
+  }
+
   return (
     <ShoppingListContext.Provider
-    value={{ shoppingList, handleAddItem }}>
+    value={{ shoppingList, handleAddItem, handleUpdateItem }}>
       {children}
     </ShoppingListContext.Provider>
   )

@@ -25,5 +25,16 @@ describe('App tests', () => {
     //confirms that one item with text 'food' appears on page after user submits form
     const newItem = await screen.findAllByText('food');
     expect(newItem.length).toBe(1);
+    
+    //confirms the delete button is present after adding an item
+    const deleteBtn = await screen.findByRole('button', { name: 'Delete'});
+
+    //user clicks the delete button
+    userEvent.click(deleteBtn);
+
+    //this confirms the item 'food' is no longer present on the screen
+    const deletedItem = screen.queryAllByText('food');
+    expect(deletedItem.length).toBe(0);
+
   })
 })

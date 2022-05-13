@@ -45,7 +45,10 @@ export default function Item({ item, handleUpdateItem, handleDeleteItem }) {
   return (
     <div>
       {itemView}
-      <button onClick={(e) => handleDeleteItem(item.id)}>Delete</button>
+      <button 
+      onClick={(e) => handleDeleteItem(item.id)}
+      type='delete-btn'
+      >Delete</button>
     </div>
   )
 }

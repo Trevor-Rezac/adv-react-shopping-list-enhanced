@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { ShoppingListProvider } from './context/ShoppingListProvider';
 
 describe('App tests', () => {
-  it('should be a passing test', async () => {
+  it('should test that user can add an item, which is then displayed in the list, and test that the user can delete the item', async () => {
     render(
         <App />
     )
@@ -35,6 +35,23 @@ describe('App tests', () => {
     //this confirms the item 'food' is no longer present on the screen
     const deletedItem = screen.queryAllByText('food');
     expect(deletedItem.length).toBe(0);
+    
+  })
 
+  it('should test a user adding multiple items and a list displaying with all items', async () => {
+    render(
+      <App />
+  )
+
+    //this confirms the item input is on the page
+    //tests the user adding three items to the list
+    const itemInput = screen.getByPlaceholderText('Add new item');
+    userEvent.type(itemInput, 'food{enter}');
+    userEvent.type(itemInput, 'water{enter}');
+    userEvent.type(itemInput, 'stamps{enter}');
+
+    //tests that the three items do appear on the screen
+    const listItems = await screen.findAllByRole('listitem')
+    expect(listItems.length).toEqual(3);
   })
 })

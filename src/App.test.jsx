@@ -54,4 +54,36 @@ describe('App tests', () => {
     const listItems = await screen.findAllByRole('listitem')
     expect(listItems.length).toEqual(3);
   })
+
+  it('should test a user adding an item then editing that item', async () => {
+    render(
+      <App />
+  )
+
+    //this confirms the item input is on the page
+    //tests the user adding three items to the list
+    const itemInput = screen.getByPlaceholderText('Add new item');
+    userEvent.type(itemInput, 'food{enter}');
+
+    //this confirms the item appears on the page
+    const initialItem = screen.getByText('food');
+    expect(initialItem).toBeInTheDocument();
+    
+    //this tests that the edit button is present with the listed item
+    const editBtn = await screen.findByRole('button', { name: 'Edit'})
+    
+    //user clicks the edit button and the edit input is present
+    userEvent.click(editBtn);
+    const editInput = await screen.findByPlaceholderText('Edit Item');
+    editInput.value = '';
+    
+    //user updates the item to water and presses enter
+    userEvent.type(editInput, 'water{enter}');
+    screen.debug();
+    
+    //tests that the updated item is present on the screen
+    const updatedItem = screen.queryAllByText('water');
+    console.log('updatedItem.length', updatedItem.length)
+    expect(updatedItem.length).toEqual(1);
+  })
 })
